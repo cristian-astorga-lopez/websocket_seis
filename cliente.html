@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Test</title>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>WebSocket conectado</h1>
+  <script>
+    const socket = io("http://127.0.0.1:5001", {
+    transports: ["websocket"], // 👈 evita polling
+    secure: true,
+    rejectUnauthorized: false
+    });
+
+    socket.on("connect", () => {
+      console.log("Conectado al servidor");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Desconectado del servidor");
+    });
+
+    // Unirse a la sala del hospital
+    socket.emit("join_hospital", { hospital: "hds" });
+
+    // Enviar mensaje a la sala
+    socket.emit("mensaje_hospital", {
+        hospital: "hds",
+        mensaje: "Hola HDS!"
+    });
+
+    // Escuchar respuesta
+    socket.on("respuesta_hospital", (data) => {
+        console.log("Mensaje en sala:", data.mensaje);
+    });
+  </script>
+</body>
+</html>
