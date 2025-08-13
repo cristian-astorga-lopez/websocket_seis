@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   flask_socket:
+    container_name: CASTORGA_websocket_server
+    restart: always
     build: .
     ports:
       - "5001:5001"
@@ -9,3 +11,12 @@ services:
       - .:/usr/src/app
     environment:
       - PYTHONUNBUFFERED=1
+    networks:
+      default:
+        ipv4_address: 172.18.10.3
+
+# Definición de redes
+networks:
+  default:
+    external:
+      name: seisnet
